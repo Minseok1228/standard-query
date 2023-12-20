@@ -20,7 +20,7 @@ function DetailBox() {
   const params = useParams();
 
   const { isLoading, isError, data } = useQuery(QUERY_KEYS.TODOS, getTodos);
-  const todo = data.filter((item) => item.id === params.id)[0];
+  const todo = data?.filter((item) => item.id === params.id)[0];
   console.log(todo);
   if (isLoading) {
     return <p>로딩중입니다....!</p>;
