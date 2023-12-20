@@ -20,7 +20,7 @@ function DetailBox() {
   const params = useParams();
 
   const { isLoading, isError, data } = useQuery(QUERY_KEYS.TODOS, getTodos);
-  const todo = data.filter((item) => item.id === params.id);
+  const todo = data.filter((item) => item.id === params.id)[0];
   console.log(todo);
   if (isLoading) {
     return <p>로딩중입니다....!</p>;
@@ -62,15 +62,15 @@ function DetailBox() {
         </tr>
         <tr>
           <StyledTh>ID</StyledTh>
-          <StyledTh>{data?.id}</StyledTh>
+          <StyledTh>{todo?.id}</StyledTh>
         </tr>
         <tr>
           <StyledTh>TITLE</StyledTh>
-          <StyledTh>{data?.title}</StyledTh>
+          <StyledTh>{todo?.title}</StyledTh>
         </tr>
         <tr>
           <StyledTh>CONTENTS</StyledTh>
-          <StyledTh></StyledTh>
+          <StyledTh>{todo?.contents}</StyledTh>
         </tr>
         <tr>
           <StyledTh>완료여부</StyledTh>
