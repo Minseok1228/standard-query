@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { StyledDiv, StyledTable, StyledTh, StyledButton } from "./styles";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import { QUERY_KEYS } from "../../../hook/keys";
 import { getTodos } from "../../../api/todos";
@@ -18,13 +19,17 @@ function DetailBox() {
   // 이전 컴포넌트에서 넘어온 parameter를 조회
   const params = useParams();
 
-  const {
-    isLoading,
-    isError,
-    data: todos,
-  } = useQuery(QUERY_KEYS.TODOS, getTodos);
+  const { isLoading, isError, data } = useQuery(QUERY_KEYS.TODOS, getTodos);
+  const todo = data.filter((item) => item.id === params.id);
+  console.log(todo);
+  if (isLoading) {
+    return <p>로딩중입니다....!</p>;
+  }
 
-  const todo = todos.filter((t) => t.id === params.id);
+  if (isError) {
+    return <p>오류가 발생하였습니다...!</p>;
+  }
+
   // 이 컴포넌트에서 아이템을 사용하기 위해, params로 전달받은 id를 이용-todo를 filtering
   // const filteredTodos = useSelector((state) => {
   //   return state.todos.filter((item) => item.id === params.id);
@@ -39,7 +44,7 @@ function DetailBox() {
   //   }
   // }, []);
 
-  // todo 객체를 얻어옴(filteredTodos는 무조건 요소가 1개여야 함)
+  // // todo 객체를 얻어옴(filteredTodos는 무조건 요소가 1개여야 함)
   // const todo = filteredTodos[0];
 
   // 이전 페이지로 가기 버튼을 선택했을 때, 컴포넌트 이동하는 함수
@@ -57,11 +62,11 @@ function DetailBox() {
         </tr>
         <tr>
           <StyledTh>ID</StyledTh>
-          <StyledTh>{todo?.id}</StyledTh>
+          <StyledTh>{data?.id}</StyledTh>
         </tr>
         <tr>
           <StyledTh>TITLE</StyledTh>
-          <StyledTh>{todo?.title}</StyledTh>
+          <StyledTh>{data?.title}</StyledTh>
         </tr>
         <tr>
           <StyledTh>CONTENTS</StyledTh>
